@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Logo } from './Logo.tsx';
 import { Menu, X, ArrowRight } from 'lucide-react';
+import { WhatsAppIcon } from './WhatsAppIcon.tsx';
 
 interface NavbarProps {
   onStartProjectClick: () => void;
@@ -13,10 +14,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartProjectClick }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrollPos =
+        window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
+      setIsScrolled(scrollPos > 15);
 
       const sections = ['home', 'services', 'work', 'process', 'about', 'contact'];
-      const scrollPosition = window.scrollY + 120;
+      const scrollPosition = scrollPos + 120;
 
       for (const section of sections) {
         const el = document.getElementById(section);
@@ -32,6 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartProjectClick }) => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -55,10 +59,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartProjectClick }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#070b14]/90 backdrop-blur-md border-b border-slate-800/80 py-3 shadow-lg shadow-black/20'
-          : 'bg-transparent py-5 border-b border-transparent'
+          ? 'bg-[#070b14]/95 backdrop-blur-md border-b border-slate-800/80 py-3 shadow-lg shadow-black/30'
+          : 'bg-[#070b14]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b border-slate-800/80 md:border-transparent py-3 md:py-5 shadow-sm md:shadow-none'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-8">
@@ -110,7 +114,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartProjectClick }) => {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
-            className="p-2 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors cursor-pointer"
+            aria-expanded={mobileMenuOpen}
+            className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-200 hover:text-white hover:bg-slate-800/70 rounded-lg transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -119,7 +124,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartProjectClick }) => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0a101f]/95 backdrop-blur-xl border-b border-slate-800 px-5 pt-3 pb-6 shadow-2xl transition-all">
+        <div className="md:hidden bg-[#0a101f]/98 backdrop-blur-xl border-b border-slate-800/90 px-5 pt-3 pb-6 shadow-2xl transition-all max-h-[calc(100vh-4.5rem)] overflow-y-auto">
           <nav className="flex flex-col gap-3">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
@@ -154,8 +159,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartProjectClick }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-emerald-300 bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-500/30 rounded-lg transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white bg-[#25D366] hover:bg-[#20ba59] rounded-lg transition-colors cursor-pointer shadow-sm shadow-[#25D366]/20"
               >
+                <WhatsAppIcon className="w-4 h-4 text-white" />
                 <span>Chat on WhatsApp</span>
               </a>
             </div>

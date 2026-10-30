@@ -1,6 +1,7 @@
 import React from 'react';
 import { Logo } from './Logo.tsx';
 import { ArrowUp } from 'lucide-react';
+import { WhatsAppIcon } from './WhatsAppIcon.tsx';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -74,21 +75,31 @@ export const Footer: React.FC = () => {
             <div className="text-xs font-semibold uppercase tracking-wider text-slate-300 mb-4">
               Direct Contact
             </div>
-            <div className="space-y-3 text-xs mb-6">
+            <div className="space-y-4 text-xs mb-6">
+              {/* Prominent WhatsApp Card in Footer */}
               <div>
                 <a
                   href="https://wa.me/message/CWDDSFYIVE3VB1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-emerald-400 hover:text-emerald-300 font-semibold inline-flex items-center gap-1.5 transition-colors"
+                  className="group flex items-center gap-3 p-2.5 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 transition-all shadow-md shadow-[#25D366]/10"
                 >
-                  <span>WhatsApp: +1 (Direct Chat)</span>
+                  <div className="w-8 h-8 rounded-lg bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <WhatsAppIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="leading-tight">
+                    <div className="text-xs font-bold text-white group-hover:text-[#25D366] transition-colors flex items-center gap-1.5">
+                      <span>Chat on WhatsApp</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-ping" />
+                    </div>
+                    <div className="text-[11px] text-[#25D366]">Direct Line · Fast Reply</div>
+                  </div>
                 </a>
               </div>
               <div>
                 <a
                   href="mailto:pitapan551@gmail.com"
-                  className="text-slate-300 hover:text-white transition-colors"
+                  className="text-slate-300 hover:text-white transition-colors block"
                 >
                   pitapan551@gmail.com
                 </a>
@@ -127,6 +138,15 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-6">
+            <a
+              href="https://wa.me/message/CWDDSFYIVE3VB1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[#25D366] hover:text-emerald-300 transition-colors font-medium"
+            >
+              <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+              <span>WhatsApp Direct</span>
+            </a>
             <button
               onClick={scrollToTop}
               className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer"

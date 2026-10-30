@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowRight, Layers, Sparkles, TrendingUp, ShieldCheck, Check, Eye } from 'lucide-react';
-import auraCapitalImg from '../assets/images/project_wealth_tech_1791811837130.jpg';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Layers, Sparkles, TrendingUp, ShieldCheck, Check, Code2, Compass, BarChart3, CheckCircle2 } from 'lucide-react';
 
 interface CaseStudyShowcaseProps {
   onExploreWork: () => void;
@@ -46,8 +46,14 @@ export const CaseStudyShowcase: React.FC<CaseStudyShowcaseProps> = ({
       <div className="absolute top-1/3 right-10 w-[500px] h-[400px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        {/* Section Header with Motion Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-3">
             <span>Case Study Deep Dive</span>
             <span className="text-slate-600">·</span>
@@ -60,13 +66,18 @@ export const CaseStudyShowcase: React.FC<CaseStudyShowcaseProps> = ({
             Every project combines visual design, user experience, and business
             strategy to create websites that are built to perform.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 4 Metrics-Style Cards */}
+        {/* 4 Metrics-Style Cards with Staggered Entrance and Hover Physics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
           {metrics.map((item, idx) => (
-            <div
+            <motion.div
               key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -6, transition: { duration: 0.25 } }}
               className="p-6 rounded-2xl bg-[#090f22]/90 border border-slate-800/80 hover:border-blue-500/40 transition-colors shadow-lg"
             >
               <div className="text-xs font-semibold uppercase tracking-wider text-blue-400 mb-2">
@@ -78,56 +89,56 @@ export const CaseStudyShowcase: React.FC<CaseStudyShowcaseProps> = ({
               <div className="text-xs font-medium text-slate-200 mb-3">
                 {item.subtitle}
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-400 leading-relaxed font-normal">
                 {item.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* Large Featured Browser Mockup Showcase */}
-        <div className="rounded-3xl bg-[#091024] border border-slate-800 p-4 sm:p-8 shadow-2xl relative">
-          {/* Mockup Header Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-4 border-b border-slate-800">
+        {/* Featured Case Study Architecture Blueprint (Image Removed) */}
+        <div className="rounded-3xl bg-[#091024] border border-slate-800 p-6 sm:p-10 shadow-2xl relative">
+          {/* Header Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-slate-800">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 <div className="w-3 h-3 rounded-full bg-rose-500/80" />
                 <div className="w-3 h-3 rounded-full bg-amber-500/80" />
                 <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
               </div>
-              <span className="text-xs font-mono text-slate-400">
-                Aura Capital Partners · Flagship Redesign
+              <span className="text-xs font-mono text-slate-300">
+                Vertex Wealth & Capital Advisory · Strategic Blueprint
               </span>
             </div>
 
-            {/* Interactive Mode Pills */}
+            {/* Interactive Mode Tabs */}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setActiveTab('strategy')}
-                className={`px-3 py-1 text-xs rounded-md transition-colors cursor-pointer ${
+                className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors cursor-pointer font-medium ${
                   activeTab === 'strategy'
-                    ? 'bg-blue-600 text-white font-medium'
-                    : 'text-slate-400 hover:text-white bg-slate-900'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
                 }`}
               >
                 Strategy
               </button>
               <button
                 onClick={() => setActiveTab('execution')}
-                className={`px-3 py-1 text-xs rounded-md transition-colors cursor-pointer ${
+                className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors cursor-pointer font-medium ${
                   activeTab === 'execution'
-                    ? 'bg-blue-600 text-white font-medium'
-                    : 'text-slate-400 hover:text-white bg-slate-900'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
                 }`}
               >
                 Interface
               </button>
               <button
                 onClick={() => setActiveTab('outcomes')}
-                className={`px-3 py-1 text-xs rounded-md transition-colors cursor-pointer ${
+                className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors cursor-pointer font-medium ${
                   activeTab === 'outcomes'
-                    ? 'bg-blue-600 text-white font-medium'
-                    : 'text-slate-400 hover:text-white bg-slate-900'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
                 }`}
               >
                 ROI Impact
@@ -135,66 +146,160 @@ export const CaseStudyShowcase: React.FC<CaseStudyShowcaseProps> = ({
             </div>
           </div>
 
-          {/* Browser Display Visual */}
-          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
-            <img
-              src={auraCapitalImg}
-              alt="Aura Capital Partners Web Redesign by Pivot Wealth Solutions"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
-            />
-
-            {/* Tab Specific Interactive Overlay Information */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#080d1c] via-[#080d1c]/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
-              <div className="max-w-2xl bg-[#091024]/90 backdrop-blur-md border border-slate-700/80 p-6 rounded-2xl shadow-xl">
-                {activeTab === 'strategy' && (
+          {/* Interactive Case Study Content Panel */}
+          <div className="rounded-2xl bg-[#0b1228] border border-slate-800/90 p-6 sm:p-8">
+            {activeTab === 'strategy' && (
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
                   <div>
                     <span className="text-xs font-mono uppercase text-blue-400 font-semibold">
-                      Phase 1: Information Architecture
+                      Phase 1: Information Architecture & Positioning
                     </span>
-                    <h3 className="text-lg sm:text-xl font-bold text-white mt-1 mb-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mt-1">
                       Framing High-Ticket Advisory Credibility
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      Replaced text-heavy legacy pages with a focused modular layout.
-                      Visitors immediately see verified investment allocations, performance
-                      indexes, and partner bios within 3 seconds of page load.
+                  </div>
+                  <span className="text-xs font-mono text-slate-400 bg-slate-900 px-2.5 py-1 rounded-md border border-slate-800 self-start sm:self-auto">
+                    Objective: Trust & Authority
+                  </span>
+                </div>
+
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                  Replaced text-heavy legacy pages with a focused modular layout.
+                  Visitors immediately see verified investment allocations, performance
+                  indexes, and partner bios within 3 seconds of page load.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <Compass className="w-5 h-5 text-blue-400 mb-2.5" />
+                    <div className="text-sm font-bold text-white mb-1">Audience Intent Mapping</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Structured page paths specifically for high-net-worth investors seeking discretionary wealth advisory.
                     </p>
                   </div>
-                )}
 
-                {activeTab === 'execution' && (
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <Layers className="w-5 h-5 text-sky-400 mb-2.5" />
+                    <div className="text-sm font-bold text-white mb-1">Information Hierarchy</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Prioritized investment track records, fee transparency, and fiduciary certifications above the fold.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <ShieldCheck className="w-5 h-5 text-indigo-400 mb-2.5" />
+                    <div className="text-sm font-bold text-white mb-1">Objection Neutralization</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Strategically embedded compliance disclaimers and audited performance proofs adjacent to CTAs.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'execution' && (
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
                   <div>
                     <span className="text-xs font-mono uppercase text-sky-400 font-semibold">
                       Phase 2: Visual & Responsive Craft
                     </span>
-                    <h3 className="text-lg sm:text-xl font-bold text-white mt-1 mb-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mt-1">
                       Precision UI System & Micro-Interactions
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      Deep obsidian surfaces with subtle hairline gold/blue accents, custom
-                      SVG asset allocation charts, and fluid layout scaling tuned for ultra-wide
-                      monitors, laptops, and mobile devices.
+                  </div>
+                  <span className="text-xs font-mono text-slate-400 bg-slate-900 px-2.5 py-1 rounded-md border border-slate-800 self-start sm:self-auto">
+                    Standard: WCAG AA & 60fps
+                  </span>
+                </div>
+
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                  Deep obsidian surfaces with subtle hairline gold/blue accents, custom
+                  SVG asset allocation charts, and fluid layout scaling tuned for ultra-wide
+                  monitors, laptops, and mobile devices.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <Code2 className="w-5 h-5 text-sky-400 mb-2.5" />
+                    <div className="text-sm font-bold text-white mb-1">Component Design Tokens</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Unified font hierarchies, radius math, and accessible 4.5:1 text contrast ratios.
                     </p>
                   </div>
-                )}
 
-                {activeTab === 'outcomes' && (
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <Sparkles className="w-5 h-5 text-blue-400 mb-2.5" />
+                    <div className="text-sm font-bold text-white mb-1">Tactile Feedback</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Smooth settling curves (&lt;180ms) on hover states, buttons, and interactive modals.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <TrendingUp className="w-5 h-5 text-emerald-400 mb-2.5" />
+                    <div className="text-sm font-bold text-white mb-1">Lightning Performance</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Sub-second first contentful paint (0.7s) and 98+ Google Lighthouse performance score.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'outcomes' && (
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
                   <div>
                     <span className="text-xs font-mono uppercase text-emerald-400 font-semibold">
-                      Phase 3: Measurable Growth
+                      Phase 3: Measurable Growth & Revenue Impact
                     </span>
-                    <h3 className="text-lg sm:text-xl font-bold text-white mt-1 mb-2">
-                      +140% Increase in Inbound Consultations
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mt-1">
+                      +185% Increase in Inbound Inquiries
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      Within 60 days of release, the client recorded their highest quarterly
-                      inbound client acquisition volume in the firm's 12-year history.
+                  </div>
+                  <span className="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-md border border-emerald-500/40 self-start sm:self-auto">
+                    Verified ROI Outcome
+                  </span>
+                </div>
+
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                  Within 60 days of release, the client recorded their highest quarterly
+                  inbound client acquisition volume in the firm's history, with substantial decreases
+                  in visitor bounce rates.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <BarChart3 className="w-5 h-5 text-emerald-400 mb-2.5" />
+                    <div className="text-2xl font-bold text-white tabular-nums mb-0.5">+185%</div>
+                    <div className="text-xs font-semibold text-slate-300 mb-1">Client Inquiries</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Dramatic increase in qualified consultation submissions over the first quarter.
                     </p>
                   </div>
-                )}
+
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <CheckCircle2 className="w-5 h-5 text-blue-400 mb-2.5" />
+                    <div className="text-2xl font-bold text-white tabular-nums mb-0.5">3.8 min</div>
+                    <div className="text-xs font-semibold text-slate-300 mb-1">Session Duration</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Up from 45 seconds on legacy site, showing deep engagement with case studies.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                    <TrendingUp className="w-5 h-5 text-sky-400 mb-2.5" />
+                    <div className="text-2xl font-bold text-white tabular-nums mb-0.5">-44%</div>
+                    <div className="text-xs font-semibold text-slate-300 mb-1">Bounce Rate Drop</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Streamlined user journey eliminated confusion and early page abandonment.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Bottom Actions */}

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Compass, Users, Target, Rocket, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Compass, Users, Target, Rocket, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export const WhyUs: React.FC = () => {
-  const [activeStage, setActiveStage] = useState<number>(3); // Default to Growth stage or interactive
+  const [activeStage, setActiveStage] = useState<number>(3); // Default to Growth stage
 
   const pillars = [
     {
@@ -87,10 +88,16 @@ export const WhyUs: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 sm:py-32 relative bg-[#070b14] border-t border-slate-800/80">
+    <section className="py-24 sm:py-32 relative bg-[#070b14] border-t border-slate-800/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="max-w-3xl mb-16 sm:mb-20">
+        {/* Header with Viewport Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl mb-16 sm:mb-20"
+        >
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-3">
             <span>Philosophy & Edge</span>
             <span className="text-slate-600">·</span>
@@ -103,16 +110,21 @@ export const WhyUs: React.FC = () => {
             Great web design is not an expense—it is your highest-leverage business
             development asset working 24 hours a day, 7 days a week.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 4 Feature Blocks */}
+        {/* 4 Feature Blocks with Staggered Entrance and Hover Physics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {pillars.map((pillar, idx) => {
             const Icon = pillar.icon;
             return (
-              <div
+              <motion.div
                 key={idx}
-                className="rounded-2xl bg-[#090f20]/90 border border-slate-800 p-7 hover:border-slate-700 transition-all duration-200 flex flex-col justify-between"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                className="rounded-2xl bg-[#090f20]/90 border border-slate-800 p-7 hover:border-blue-500/40 transition-colors duration-200 flex flex-col justify-between"
               >
                 <div>
                   <div className="w-11 h-11 rounded-xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-5">
@@ -129,13 +141,19 @@ export const WhyUs: React.FC = () => {
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                   <span>{pillar.metric}</span>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Interactive Transformation Visual: Problem → Strategy → Design → Growth */}
-        <div className="rounded-3xl bg-[#0a1024] border border-slate-800/90 p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-3xl bg-[#0a1024] border border-slate-800/90 p-8 sm:p-12 shadow-2xl relative overflow-hidden"
+        >
           <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
 
           {/* Subheader */}
@@ -161,7 +179,7 @@ export const WhyUs: React.FC = () => {
                 <button
                   key={stage.name}
                   onClick={() => setActiveStage(idx)}
-                  className={`text-left p-4 rounded-xl border transition-all cursor-pointer ${
+                  className={`text-left p-4 rounded-xl border transition-all cursor-pointer relative ${
                     isActive
                       ? 'bg-blue-600/15 border-blue-500/80 shadow-lg shadow-blue-500/10'
                       : 'bg-slate-900/60 border-slate-800/80 hover:border-slate-700 text-slate-400'
@@ -183,39 +201,51 @@ export const WhyUs: React.FC = () => {
             })}
           </div>
 
-          {/* Detailed Stage Content */}
-          <div className="rounded-2xl bg-[#0c142b] border border-slate-800/80 p-6 sm:p-8">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-wider text-blue-400">
-                  {stages[activeStage].badge}
-                </span>
-                <h4 className="text-xl sm:text-2xl font-bold text-white mt-1">
-                  {stages[activeStage].title}
-                </h4>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-                <span>Stage {activeStage + 1} of 4</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {stages[activeStage].symptoms.map((item, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/60"
-                >
-                  {activeStage === 0 ? (
-                    <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
-                  ) : (
-                    <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-                  )}
-                  <span className="text-sm text-slate-200 leading-snug">{item}</span>
+          {/* Detailed Stage Content with AnimatePresence */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeStage}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.28, ease: 'easeInOut' }}
+              className="rounded-2xl bg-[#0c142b] border border-slate-800/80 p-6 sm:p-8"
+            >
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                  <span className="text-xs font-mono uppercase tracking-wider text-blue-400">
+                    {stages[activeStage].badge}
+                  </span>
+                  <h4 className="text-xl sm:text-2xl font-bold text-white mt-1">
+                    {stages[activeStage].title}
+                  </h4>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+                  <span>Stage {activeStage + 1} of 4</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {stages[activeStage].symptoms.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.25, delay: i * 0.06 }}
+                    className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/60"
+                  >
+                    {activeStage === 0 ? (
+                      <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                    ) : (
+                      <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
+                    )}
+                    <span className="text-sm text-slate-200 leading-snug">{item}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );

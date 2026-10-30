@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Compass, Palette, Code2, CheckCircle2, Clock, Sparkles } from 'lucide-react';
 
 export const Process: React.FC = () => {
@@ -83,10 +84,16 @@ export const Process: React.FC = () => {
   ];
 
   return (
-    <section id="process" className="py-24 sm:py-32 relative bg-[#070b14] border-t border-slate-800/80">
+    <section id="process" className="py-24 sm:py-32 relative bg-[#070b14] border-t border-slate-800/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="max-w-3xl mb-16 sm:mb-20">
+        {/* Header with Motion Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl mb-16 sm:mb-20"
+        >
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-3">
             <span>Methodology</span>
             <span className="text-slate-600">·</span>
@@ -99,7 +106,7 @@ export const Process: React.FC = () => {
             No guesswork, no endless revisions, and no missed deadlines. A disciplined,
             transparent 5-step progression designed to deliver high-converting results.
           </p>
-        </div>
+        </motion.div>
 
         {/* Process Steps: Horizontal Timeline on Desktop / Accordion on Mobile */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -110,9 +117,11 @@ export const Process: React.FC = () => {
               const isActive = activeStep === idx;
 
               return (
-                <button
+                <motion.button
                   key={step.number}
                   onClick={() => setActiveStep(idx)}
+                  whileHover={{ x: 4, transition: { duration: 0.2 } }}
+                  whileTap={{ scale: 0.99 }}
                   className={`text-left p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
                     isActive
                       ? 'bg-blue-600/15 border-blue-500/80 shadow-lg shadow-blue-500/10'
@@ -121,7 +130,7 @@ export const Process: React.FC = () => {
                 >
                   <div className="flex items-center gap-4">
                     <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                         isActive
                           ? 'bg-blue-600 text-white shadow-md'
                           : 'bg-slate-900 border border-slate-800 text-slate-400'
@@ -152,61 +161,72 @@ export const Process: React.FC = () => {
                   >
                     Phase {idx + 1}
                   </span>
-                </button>
+                </motion.button>
               );
             })}
           </div>
 
-          {/* Active Step Detailed Card */}
+          {/* Active Step Detailed Card with Animated Transition */}
           <div className="lg:col-span-7">
             <div className="h-full rounded-3xl bg-[#091024] border border-slate-800 p-8 sm:p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-[80px] pointer-events-none" />
 
-              <div>
-                {/* Step Metadata Header */}
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl sm:text-3xl font-mono font-extrabold text-blue-400">
-                      {steps[activeStep].number}
-                    </span>
-                    <span className="text-slate-600">/</span>
-                    <span className="text-lg font-bold text-white">
-                      {steps[activeStep].title}
-                    </span>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStep}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: 0.28, ease: 'easeInOut' }}
+                >
+                  {/* Step Metadata Header */}
+                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl sm:text-3xl font-mono font-extrabold text-blue-400">
+                        {steps[activeStep].number}
+                      </span>
+                      <span className="text-slate-600">/</span>
+                      <span className="text-lg font-bold text-white">
+                        {steps[activeStep].title}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
+                      <Clock className="w-3.5 h-3.5 text-blue-400" />
+                      <span>Estimated: {steps[activeStep].duration}</span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
-                    <Clock className="w-3.5 h-3.5 text-blue-400" />
-                    <span>Estimated: {steps[activeStep].duration}</span>
-                  </div>
-                </div>
+                  {/* Tagline & Main Paragraph */}
+                  <p className="text-base sm:text-lg text-blue-200 font-medium mb-4">
+                    {steps[activeStep].tagline}
+                  </p>
+                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-8 font-normal">
+                    {steps[activeStep].description}
+                  </p>
 
-                {/* Tagline & Main Paragraph */}
-                <p className="text-base sm:text-lg text-blue-200 font-medium mb-4">
-                  {steps[activeStep].tagline}
-                </p>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-8">
-                  {steps[activeStep].description}
-                </p>
-
-                {/* Deliverables Checklist */}
-                <div>
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">
-                    Phase Key Deliverables
-                  </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {steps[activeStep].deliverables.map((item, i) => (
-                      <div
-                        key={i}
-                        className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-800/80"
-                      >
-                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                        <span className="text-xs sm:text-sm text-slate-200">{item}</span>
-                      </div>
-                    ))}
+                  {/* Deliverables Checklist */}
+                  <div>
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">
+                      Phase Key Deliverables
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {steps[activeStep].deliverables.map((item, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: -8 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.22, delay: i * 0.05 }}
+                          className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-800/80"
+                        >
+                          <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                          <span className="text-xs sm:text-sm text-slate-200">{item}</span>
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </AnimatePresence>
 
               {/* Step Navigation Dots / Footer */}
               <div className="pt-8 mt-8 border-t border-slate-800 flex items-center justify-between">
@@ -223,7 +243,7 @@ export const Process: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="text-xs text-slate-400">
+                <div className="text-xs text-slate-400 font-mono">
                   Step {activeStep + 1} of {steps.length}
                 </div>
               </div>

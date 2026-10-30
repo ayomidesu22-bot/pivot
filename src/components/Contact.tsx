@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle2, Mail, MessageSquare, Clock, Globe, ArrowRight, ShieldCheck, Sparkles, MessageCircle, MapPin, ArrowUpRight } from 'lucide-react';
+import { WhatsAppIcon } from './WhatsAppIcon.tsx';
 
 interface ContactProps {
   preselectedService?: string;
@@ -119,8 +120,8 @@ export const Contact: React.FC<ContactProps> = ({ preselectedService }) => {
               <div className="space-y-4">
                 {/* WhatsApp Direct */}
                 <div className="flex items-start gap-3 text-slate-300">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
-                    <MessageCircle className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg bg-[#25D366]/20 border border-[#25D366]/40 flex items-center justify-center text-[#25D366] shrink-0 mt-0.5 shadow-sm shadow-[#25D366]/20">
+                    <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
                   </div>
                   <div>
                     <div className="text-xs text-slate-400 uppercase font-mono">Instant Chat (WhatsApp)</div>
@@ -128,7 +129,7 @@ export const Contact: React.FC<ContactProps> = ({ preselectedService }) => {
                       href="https://wa.me/message/CWDDSFYIVE3VB1"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5"
+                      className="text-sm font-semibold text-[#25D366] hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5"
                     >
                       <span>Message on WhatsApp</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />

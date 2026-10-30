@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { ArrowUpRight, Layout, Sparkles, Target, Zap, Check, ChevronRight } from 'lucide-react';
 
 interface ServicesProps {
@@ -6,8 +7,6 @@ interface ServicesProps {
 }
 
 export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-
   const services = [
     {
       number: '01',
@@ -68,13 +67,30 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
   ];
 
   return (
-    <section id="services" className="py-24 sm:py-32 relative bg-[#070b14]">
-      {/* Background radial accent */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
+    <section id="services" className="py-24 sm:py-32 relative bg-[#070b14] overflow-hidden">
+      {/* Background radial accent with subtle breathing motion */}
+      <motion.div
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.08, 0.16, 0.08],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none"
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-16 sm:mb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header with Scroll Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl mb-16 sm:mb-20"
+        >
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-3">
             <span>Capabilities</span>
             <span className="text-slate-600">·</span>
@@ -87,26 +103,34 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
             From strategy and UI/UX to complete website design, I create digital
             experiences that look professional, work smoothly, and help businesses move forward.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 4 Premium Service Cards in 2x2 Grid */}
+        {/* 4 Premium Service Cards in 2x2 Grid with Staggered Motion */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {services.map((service, index) => {
             const Icon = service.icon;
-            const isExpanded = expandedIndex === index;
 
             return (
-              <div
+              <motion.div
                 key={service.number}
-                className="group relative rounded-2xl bg-[#0a1021]/80 hover:bg-[#0d152c] border border-slate-800/80 hover:border-blue-500/40 p-8 sm:p-10 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col justify-between"
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.55, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -8, transition: { duration: 0.25 } }}
+                className="group relative rounded-2xl bg-[#0a1021]/80 hover:bg-[#0d152c] border border-slate-800/80 hover:border-blue-500/50 p-8 sm:p-10 transition-colors duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col justify-between"
               >
                 {/* Top Row: Icon, Number, Arrow */}
                 <div>
                   <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-blue-600/15 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:text-blue-300 group-hover:bg-blue-600/25 transition-colors">
+                      <motion.div
+                        whileHover={{ rotate: [0, -6, 6, 0] }}
+                        transition={{ duration: 0.4 }}
+                        className="w-12 h-12 rounded-xl bg-blue-600/15 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:text-blue-300 group-hover:bg-blue-600/25 transition-colors"
+                      >
                         <Icon className="w-6 h-6" />
-                      </div>
+                      </motion.div>
                       <span className="text-sm font-mono font-semibold text-slate-400">
                         {service.number}
                       </span>
@@ -117,7 +141,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                       aria-label={`Inquire about ${service.title}`}
                       className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:border-blue-500/60 group-hover:bg-blue-600 transition-all cursor-pointer"
                     >
-                      <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <ArrowUpRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </button>
                   </div>
 
@@ -125,7 +149,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-blue-200 transition-colors">
                     {service.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6">
+                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 font-normal">
                     {service.description}
                   </p>
 
@@ -158,7 +182,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

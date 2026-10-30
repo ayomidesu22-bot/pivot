@@ -40,3 +40,17 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
 }
+
+/* Ensure no "Powered by Netlify" badges, banners, or watermarks appear */
+[data-netlify-badge],
+.netlify-badge,
+a[href*="netlify.com"],
+img[src*="netlify"],
+#netlify-badge,
+div[class*="netlify"],
+iframe[src*="netlify"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
